@@ -5,7 +5,6 @@ import { Application } from "jsr:@oak/oak/application";
 import { Router } from "jsr:@oak/oak/router";
 
 import { app } from "./main.ts";
-import routeStaticFilesFrom from "./util/routeStaticFilesFrom.ts";
 
 describe("Application", () => {
   let serverInfo: { baseUrl: string; abortController: AbortController };
@@ -28,15 +27,6 @@ describe("Application", () => {
     const router = new Router();
     app.use(router.routes());
     assertExists(router);
-  });
-
-  it("can configure static routes", () => {
-    const staticFileMiddleware = routeStaticFilesFrom([
-      `${Deno.cwd()}/client/dist`,
-      `${Deno.cwd()}/client/public`,
-    ]);
-    app.use(staticFileMiddleware);
-    assertExists(staticFileMiddleware);
   });
 
   it("can request home page from running server", async () => {
